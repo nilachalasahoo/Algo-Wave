@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorting</title>
+  <!-- <link rel="stylesheet" href="style.css"> -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+        background-color: #2874f0;
+        width: 100%;
+        color: #fff;
+        text-align: center;
+    }
+  
+    .container {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        font-size: 40px;
+        width: 100%;
+        border: 0 solid black;
+        height: 50px;
+        
+    }
+    .row{
+      display: flex;
+      width: 100%;
+      margin-top: 20px;
+    }
+    section{
+      margin-bottom: 100px;
+    }
+    .c1{
+      flex: 0 0 20%;
+    }
+    .c2{
+      flex: 0 0 50%;
+    }
+    .c3{
+      flex: 0 0 30%;
+    }
+    canvas {
+      border: 0.25px solid #ddd;
+    }
+    #complexity {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    #codeDisplay {
+      border: 0px solid #ddd;
+      padding: 10px;
+      max-width: 50%;
+      overflow: auto;
+      height: 400px;
+      text-align: center;
+    }
+    #codeDisplay h2 {
+        margin-top: 0;
+      }
+    h4{
+        display: inline;
+      }
+    #elemen {
+        margin-left: 20%;
+    }
+    #eleme{
+        margin-left: 30%;
+    }
+    #elem{
+        margin-left: 21%;
+    }
+    #e{
+        margin-left: 10%;
+    }
+    button{
+      cursor: pointer;
+      border: 0 solid black;
+        height: 25px;
+        border-radius: 15px;
+      }
+      .set{
+        width: 45px;
+        background-color:#daf205;
+      }
+      .gen_arr{
+        margin-top: 10px;
+        background-color: blue;
+        color: white;
+      }
+      #start{
+        background-color: green;
+        margin-left: 12%;
+      }
+      #stop{
+        margin-left: 7%;
+        background-color: red;
+      }
+      #reset{
+        margin-left: 7%;
+        background-color: rgb(1, 1, 21);
+        color: white;
+      }
+      #speeds{
+        margin-left: 20%;
+        margin-right: 2%;
+      }
+      #cd{
+        text-align: center;
+      }
+      #inputSection{
+        text-align: center;
+      }
+      footer {
+              background-color: #f2f2f2;
+              color: #333;
+              padding: 20px 0;
+              text-align: center;
+              position: fixed;
+              bottom: 0;
+              width: 100%;
+          }
+          .footer-content {
+              display: flex;
+              
+          }
+          table{
+            text-align: center;
+            font-weight: bold;
+          }
+  </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+          <div id="logo">Sorting Visualizer</div>    
+      </div>
+      </header>
+  <main class="row">
+    <section id="complexity" class="c1">
+      <h2>Time and Space Complexity</h2>
+      <div>
+        <h3>Time Complexity</h3>
+        <div>
+          Best: <span id="bestTime">--</span><br>
+          Average: <span id="avgTime">--</span><br>
+          Worst: <span id="worstTime">--</span>
+        </div>
+      </div>
+      <div>
+        <h3>Space Complexity</h3>
+        <div>
+          <span id="space">--</span>
+        </div>
+      </div>
+    </section>
+    <section class="c2">
+      <div id="elemen">
+        <label for="numOfElements"><b>Number of Elements : </b></label>
+        <input type="number" id="numOfElements" min="1" value="10">
+        <button class="set" onclick="getArraySize()"><b>Set</b></button>
+      </div>
+      <br>
+        <div id="eleme">
+            <label for="sortingAlgorithm"><b>Select Sorting Algorithm : </b></label>
+            <select id="sortingAlgorithm">
+              <option value="bubbleSort">Bubble Sort</option>
+              <option value="insertionSort">Insertion Sort</option>
+              <option value="mergeSort">Merge Sort</option>
+              <option value="quickSort">Quick Sort</option>
+              <option value="heapSort">Heap Sort</option>
+            </select>
+          </div>
+          <br>
+
+          <div id="inputSection">
+            <h4>Choose Input Type:</h4>
+            <select id="inputType" onchange="toggleInputType()">
+              <option value="custom">Custom Input</option>
+              <option value="random">Random Array</option>
+            </select>
+            <div id="customInput">
+              <h4>Enter Array Values:</h4>
+              <div id="arrayInputs"></div>
+              <button class="gen_arr" onclick="generateArray()">Generate Array</button>
+            </div>
+            <div id="randomInput" style="display:none;">
+              <br>
+              <button onclick="generateRandomArray()">Generate Random Array</button>
+            </div>
+          </div>
+
+      <div id="inputSection" style="display: none;">
+        <h2>Enter Array Values:</h2>
+        <div id="arrayInputs"></div>
+        <br>
+        <button onclick="generateArray()">Generate Array</button>
+      </div>
+      <br>
+
+      <canvas id="sortingCanvas" width="600" height="300"></canvas>
+    </section>
+
+    <section id="cd" class="c3">
+        <h2>Coding</h2>
+        <div id="codeDisplay"></div>
+        <div id="sortingInfo">
+          <h3>Sorting Information</h3>
+          <table id="sortingTable">
+            <thead>
+              <tr>
+                <th>Step</th>
+                <th>Action</th>
+                <th>Bars</th>
+              </tr>
+            </thead>
+            <tbody id="sortingTableBody"></tbody>
+          </table>
+      </div>
+    </section>
+    
+  </main>
+  <footer>
+        <div class="footer-content">
+              <label id="speeds" for="speed"><b>Speed:</b></label>
+              <input type="range" id="speed" min="1" max="100" value="50">
+              <button id="start" onclick="startSorting()">Start Sort</button>
+              <button id="stop" onclick="stopSorting()">Stop Sort</button>
+              <button id="reset" onclick="resetAll()">Reset All</button>
+    </div>
+</footer>
+<!-- src="script.js" -->
+  <script >
+    let array = [];
+    let isSorting = false;
+    let speed = 50; // Default speed (milliseconds)
+
+    function getArraySize() {
+      const numOfElements = document.getElementById('numOfElements').value;
+      createArrayInputs(numOfElements);
+      document.getElementById('inputSection').style.display = 'block';
+    }
+
+    function createArrayInputs(numOfElements) {
+      const arrayInputsContainer = document.getElementById('arrayInputs');
+      arrayInputsContainer.innerHTML = '';
+
+      for (let i = 0; i < numOfElements; i++) {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.placeholder = `Element ${i + 1}`;
+        arrayInputsContainer.appendChild(input);
+      }
+    }
+
+
+    function toggleInputType() {
+        const inputType = document.getElementById('inputType').value;
+        const customInput = document.getElementById('customInput');
+        const randomInput = document.getElementById('randomInput');
+  
+        if (inputType === 'custom') {
+          customInput.style.display = 'block';
+          randomInput.style.display = 'none';
+        } else if (inputType === 'random') {
+          customInput.style.display = 'none';
+          randomInput.style.display = 'block';
+        }
+      }
+  
+      function generateRandomArray() {
+        const numOfElements = document.getElementById('numOfElements').value;
+        array = Array.from({ length: numOfElements }, () => Math.floor(Math.random() * 100));
+        drawArray();
+        const selectedAlgorithm = document.getElementById('sortingAlgorithm').value;
+        updateComplexity(selectedAlgorithm);
+        clearSortingTable();
+      }
+
+      document.getElementById('inputType').addEventListener('change', toggleInputType);
+
+    function generateArray() {
+      array = [];
+      const arrayInputs = document.getElementById('arrayInputs').children;
+
+      for (let i = 0; i < arrayInputs.length; i++) {
+        const inputValue = arrayInputs[i].value;
+        const numericValue = parseInt(inputValue, 10);
+        array.push(isNaN(numericValue) ? 0 : numericValue);
+      }
+
+      drawArray();
+      const selectedAlgorithm = document.getElementById('sortingAlgorithm').value;
+      updateComplexity(selectedAlgorithm);
+      clearSortingTable();
+    }
+
+    function drawArray(highlightedIndexes = [], isSorting = false) {
+        const canvas = document.getElementById('sortingCanvas');
+        const ctx = canvas.getContext('2d');
+        const barWidth = canvas.width / array.length;
+      
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+        // Set a font size that fits within the bars
+        ctx.font = '16px Arial';
+      
+        array.forEach((value, index) => {
+          const barHeight = (value / 100) * canvas.height;
+          if (isSorting) {
+            ctx.fillStyle = '#2ecc71'; // Set color to green during sorting
+          } else {
+            ctx.fillStyle = highlightedIndexes.includes(index) ? '#e74c3c' : '#3498db';
+          }
+          ctx.fillRect(index * barWidth, canvas.height - barHeight, barWidth, barHeight);
+          ctx.strokeRect(index * barWidth, canvas.height - barHeight, barWidth, barHeight);
+      
+          // Display the value inside the bar
+          ctx.fillStyle = 'Black';
+          // Adjust the position for better visibility
+          ctx.fillText(value, index * barWidth + barWidth / 2, canvas.height - barHeight - 10);
+        });
+      }
+      
+    function updateComplexity(sortingAlgorithm) {
+        const bestTime = document.getElementById('bestTime');
+        const avgTime = document.getElementById('avgTime');
+        const worstTime = document.getElementById('worstTime');
+        const space = document.getElementById('space');
+        switch (sortingAlgorithm) {
+            case 'bubbleSort':
+            bestTime.textContent = 'O(n^2)';
+            avgTime.textContent = 'O(n^2)';
+            worstTime.textContent = 'O(n^2)';
+            space.textContent = 'O(1)';
+            displayCode('bubbleSort');
+            break;
+      
+          case 'insertionSort':
+            bestTime.textContent = 'O(n)';
+            avgTime.textContent = 'O(n^2)';
+            worstTime.textContent = 'O(n^2)';
+            space.textContent = 'O(1)';
+            displayCode('insertionSort');
+            break;
+      
+          case 'mergeSort':
+            bestTime.textContent = 'O(n log n)';
+            avgTime.textContent = 'O(n log n)';
+            worstTime.textContent = 'O(n log n)';
+            space.textContent = 'O(n)';
+            displayCode('mergeSort');
+            break;
+      
+          case 'quickSort':
+            bestTime.textContent = 'O(n log n)';
+            avgTime.textContent = 'O(n log n)';
+            worstTime.textContent = 'O(n^2)';
+            space.textContent = 'O(log n)';
+            displayCode('quickSort');
+            break;
+      
+          case 'heapSort':
+            bestTime.textContent = 'O(n log n)';
+            avgTime.textContent = 'O(n log n)';
+            worstTime.textContent = 'O(n log n)';
+            space.textContent = 'O(1)';
+            displayCode('heapSort');
+            break;
+      
+          default:
+            console.error('Invalid sorting algorithm selected');
+        }
+      }
+      
+      function displayCode(sortingAlgorithm) {
+        const codeDisplay = document.getElementById('codeDisplay');
+      
+        switch (sortingAlgorithm) {
+          case 'bubbleSort':
+            codeDisplay.innerHTML = `<pre>
+      function bubbleSort(arr) {
+        const n = arr.length;
+      
+        for (let i = 0; i < n - 1; i++) {
+          for (let j = 0; j < n - 1 - i; j++) {
+            if (arr[j] > arr[j + 1]) {
+              // Swap elements
+              [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+            }
+          }
+        }
+      
+        return arr;
+      }
+      
+      const array = [/* your array here */];
+      bubbleSort(array);
+      </pre>`;
+            break;
+      
+          case 'insertionSort':
+            codeDisplay.innerHTML = `<pre>
+      function insertionSort(arr) {
+        const n = arr.length;
+      
+        for (let i = 1; i < n; i++) {
+          let key = arr[i];
+          let j = i - 1;
+      
+          while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+          }
+      
+          arr[j + 1] = key;
+        }
+      
+        return arr;
+      }
+      
+      const array = [/* your array here */];
+      insertionSort(array);
+      </pre>`;
+            break;
+      
+          case 'mergeSort':
+            codeDisplay.innerHTML = `<pre>
+      function mergeSort(arr) {
+        if (arr.length <= 1) {
+          return arr;
+        }
+      
+        const mid = Math.floor(arr.length / 2);
+        const left = arr.slice(0, mid);
+        const right = arr.slice(mid);
+      
+        return merge(mergeSort(left), mergeSort(right));
+      }
+      
+      function merge(left, right) {
+        let result = [];
+        let i = 0;
+        let j = 0;
+      
+        while (i < left.length && j < right.length) {
+          if (left[i] < right[j]) {
+            result.push(left[i]);
+            i++;
+          } else {
+            result.push(right[j]);
+            j++;
+          }
+        }
+      
+        return result.concat(left.slice(i)).concat(right.slice(j));
+      }
+      
+      const array = [/* your array here */];
+      mergeSort(array);
+      </pre>`;
+            break;
+      
+          case 'quickSort':
+            codeDisplay.innerHTML = `<pre>
+      function quickSort(arr, low, high) {
+        if (low < high) {
+          const pi = partition(arr, low, high);
+      
+          quickSort(arr, low, pi - 1);
+          quickSort(arr, pi + 1, high);
+        }
+      
+        return arr;
+      }
+      
+      function partition(arr, low, high) {
+        const pivot = arr[high];
+        let i = low - 1;
+      
+        for (let j = low; j < high; j++) {
+          if (arr[j] <= pivot) {
+            i++;
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+          }
+        }
+      
+        [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+        return i + 1;
+      }
+      
+      const array = [/* your array here */];
+      quickSort(array, 0, array.length - 1);
+      </pre>`;
+            break;
+      
+          case 'heapSort':
+            codeDisplay.innerHTML = `<pre>
+      function heapSort(arr) {
+        const n = arr.length;
+      
+        for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+          heapify(arr, n, i);
+        }
+      
+        for (let i = n - 1; i > 0; i--) {
+          [arr[0], arr[i]] = [arr[i], arr[0]];
+          heapify(arr, i, 0);
+        }
+      
+        return arr;
+      }
+      
+      function heapify(arr, n, i) {
+        let largest = i;
+        const left = 2 * i + 1;
+        const right = 2 * i + 2;
+      
+        if (left < n && arr[left] > arr[largest]) {
+          largest = left;
+        }
+      
+        if (right < n && arr[right] > arr[largest]) {
+          largest = right;
+        }
+      
+        if (largest !== i) {
+          [arr[i], arr[largest]] = [arr[largest], arr[i]];
+          heapify(arr, n, largest);
+        }
+      }
+      
+      const array = [/* your array here */];
+      heapSort(array);
+      </pre>`;
+            break;
+      
+          default:
+            codeDisplay.innerHTML = '';
+        }
+      }        
+
+      function startSorting() {
+        isSorting = true;
+        const selectedAlgorithm = document.getElementById('sortingAlgorithm').value;
+        sortArray(selectedAlgorithm);
+      }
+  
+      function stopSorting() {
+        isSorting = false;
+      }
+  
+      function resetAll() {
+        isSorting = false;
+        document.getElementById('numOfElements').value = '10';
+        document.getElementById('inputSection').style.display = 'none';
+        document.getElementById('sortingAlgorithm').value = 'bubbleSort';
+        document.getElementById('speed').value = '50';
+        resetCanvas();
+        resetComplexities();
+        resetCodeDisplay();
+        clearSortingInfo();
+      }
+  
+      // Function to clear the sorting information
+      function clearSortingInfo() {
+        // Clear the content of the sorting table
+        document.getElementById('sortingTableBody').innerHTML = '';
+      }
+  
+      function resetCanvas() {
+        const canvas = document.getElementById('sortingCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+  
+      function resetComplexities() {
+        const bestTime = document.getElementById('bestTime');
+        const avgTime = document.getElementById('avgTime');
+        const worstTime = document.getElementById('worstTime');
+        const space = document.getElementById('space');
+  
+        bestTime.textContent = '--';
+        avgTime.textContent = '--';
+        worstTime.textContent = '--';
+        space.textContent = '--';
+      }
+  
+      function resetCodeDisplay() {
+        const codeDisplay = document.getElementById('codeDisplay');
+        codeDisplay.innerHTML = '';
+      }
+
+
+      let stepCount = 1;
+
+function updateSortingTable(action, bars) {
+  const tableBody = document.getElementById('sortingTableBody');
+  const newRow = tableBody.insertRow();
+  const stepCell = newRow.insertCell(0);
+  const actionCell = newRow.insertCell(1);
+  const barsCell = newRow.insertCell(2);
+
+  stepCell.textContent = stepCount++;
+  actionCell.textContent = action;
+  barsCell.textContent = bars.join(', ');
+}
+
+function clearSortingTable() {
+  stepCount = 1;
+  const tableBody = document.getElementById('sortingTableBody');
+  tableBody.innerHTML = '';
+}
+    async function bubbleSort() {
+        async function bubbleSortHelper() {
+            clearSortingTable();
+            for (let i = 0; i < array.length - 1; i++) {
+                if (!isSorting) {
+                  return;
+                 }
+                for (let j = 0; j < array.length - 1 - i; j++) {
+                    if (!isSorting) {
+                      return;
+                    }  
+                    await highlightCodeLine(4); // Highlight the line where the comparison occurs
+                    if (array[j] > array[j + 1]) {
+                    // Swap elements
+                      [array[j], array[j + 1]] = [array[j + 1], array[j]];
+                      drawArray([j, j + 1]);
+                      updateSortingTable('Comparing', [j, j + 1]);
+                      updateSortingTable('Swapping', [j, j + 1]);
+                      await sleep(speed);
+                    }
+                }
+            }
+      }
+      await bubbleSortHelper();
+    }  
+      
+      async function insertionSort() {
+        async function insertionSortHelper() {
+            clearSortingTable();
+            for (let i = 1; i < array.length; i++) {
+                if (!isSorting) {
+                  return;
+                }
+                let key = array[i];
+                let j = i - 1;
+                await highlightCodeLine(4); // Highlight the line where the comparison occurs
+                while (j >= 0 && array[j] > key) {
+                    if (!isSorting) {
+                      return;
+                    }
+                    updateSortingTable('Comparing', [j, i]);
+                    array[j + 1] = array[j];
+                    j = j - 1;
+                    drawArray([j, j + 1]);
+                    await sleep(speed);
+                    await highlightCodeLine(6); // Highlight the line inside the while loop
+                }
+            
+                array[j + 1] = key;
+                drawArray([j + 1]);
+                updateSortingTable('Swapping', [j + 1]);
+                await sleep(speed);
+                await highlightCodeLine(4);
+            }
+        }
+        await insertionSortHelper();
+    }
+      
+      async function mergeSort() {
+        clearSortingTable();
+
+        // Merge sort algorithm
+        async function merge(start, middle, end) {
+
+          if (!isSorting) {
+            return;
+          }
+          const leftArray = array.slice(start, middle + 1);
+          const rightArray = array.slice(middle + 1, end + 1);
+      
+          let i = 0,
+            j = 0,
+            k = start;
+      
+          while (i < leftArray.length && j < rightArray.length) {
+            if (!isSorting) {
+              return;
+            }
+            if (leftArray[i] <= rightArray[j]) {
+              array[k] = leftArray[i];
+              drawArray([k]);
+              updateSortingTable('Comparing', [k]);
+              await sleep(speed);
+              i++;
+            } else {
+              array[k] = rightArray[j];
+              drawArray([k]);
+              updateSortingTable('Comparing', [k]);
+              await sleep(speed);
+              j++;
+            }
+            drawArray([k]);
+            await sleep(speed);
+            k++;
+          }
+      
+          while (i < leftArray.length) {
+            if (!isSorting) {
+              return;
+            }
+            array[k] = leftArray[i];
+            drawArray([k]);
+            updateSortingTable('Swapping', [k]);
+            await sleep(speed);
+            i++;
+            k++;
+          }
+      
+          while (j < rightArray.length) {
+            if (!isSorting) {
+              return;
+            }
+            array[k] = rightArray[j];
+            drawArray([k]);
+            updateSortingTable('Swapping', [k]);
+            await sleep(speed);
+            j++;
+            k++;
+          }
+        }
+      
+        async function mergeSortHelper(start, end) {
+          if (!isSorting) {
+            return;
+          }
+          if (start < end) {
+            const middle = Math.floor((start + end) / 2);
+            await highlightCodeLine(4); // Highlight the line where the recursive call starts
+            await mergeSortHelper(start, middle);
+            await highlightCodeLine(4); // Highlight the line where the recursive call starts
+            await mergeSortHelper(middle + 1, end);
+            await highlightCodeLine(4); // Highlight the line where the recursive call starts
+            await merge(start, middle, end);
+          }
+        }
+      
+        await mergeSortHelper(0, array.length - 1);
+      }
+      
+      async function quickSort() {
+        clearSortingTable();
+        // Quick sort algorithm
+        async function partition(low, high) {
+          if (!isSorting) {
+            return;
+          }
+          const pivot = array[high];
+          let i = low - 1;
+      
+          for (let j = low; j <= high - 1; j++) {
+            if (!isSorting) {
+              return;
+            }
+            if (array[j] < pivot) {
+              i++;
+              [array[i], array[j]] = [array[j], array[i]];
+              drawArray([i, j]);
+              updateSortingTable('Comparing', [i, j]);
+              await sleep(speed);
+            }
+          }
+      
+          [array[i + 1], array[high]] = [array[high], array[i + 1]];
+          drawArray([i + 1, high]);
+          updateSortingTable('Swapping', [i + 1, high]);
+          await sleep(speed);
+          return i + 1;
+        }
+      
+        async function quickSortHelper(low, high) {
+          if (!isSorting) {
+            return;
+          }
+          if (low < high) {
+            const partitionIndex = await partition(low, high);
+            await highlightCodeLine(4); // Highlight the line where the recursive call starts
+            await quickSortHelper(low, partitionIndex - 1);
+            await highlightCodeLine(4); // Highlight the line where the recursive call starts
+            await quickSortHelper(partitionIndex + 1, high);
+          }
+        }
+      
+        await quickSortHelper(0, array.length - 1);
+      }
+      
+      async function heapSort() {
+        // Heap sort algorithm
+        clearSortingTable();
+        async function heapify(n, i) {
+          if (!isSorting) {
+            return;
+          }
+          let largest = i;
+          const left = 2 * i + 1;
+          const right = 2 * i + 2;
+      
+          if (left < n && array[left] > array[largest]) {
+            largest = left;
+          }
+      
+          if (right < n && array[right] > array[largest]) {
+            largest = right;
+          }
+      
+          if (largest !== i) {
+            [array[i], array[largest]] = [array[largest], array[i]];
+            drawArray([i, largest]);
+            updateSortingTable('Comparing', [i, largest]);
+            await sleep(speed);
+            await heapify(n, largest);
+          }
+        }
+      
+        async function heapSortHelper() {
+          const n = array.length;
+      
+          // Build max heap
+          for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+            if (!isSorting) {
+              return;
+            }
+            await highlightCodeLine(4); // Highlight the line inside the for loop
+            await heapify(n, i);
+          }
+      
+          // Extract elements from the heap
+          for (let i = n - 1; i > 0; i--) {
+            if (!isSorting) {
+              return;
+            }
+            [array[0], array[i]] = [array[i], array[0]];
+            drawArray([0, i]);
+            updateSortingTable('Swapping', [0, i]);
+            await sleep(speed);
+            await heapify(i, 0);
+            await highlightCodeLine(4); // Highlight the line inside the for loop
+          }
+        }
+      
+        await heapSortHelper();
+      }
+      
+    
+
+      async function startSorting() {
+        if (!isSorting) {
+          isSorting = true;
+          const selectedAlgorithm = document.getElementById('sortingAlgorithm').value;
+      
+          switch (selectedAlgorithm) {
+            case 'bubbleSort':
+              await bubbleSort();
+              break;
+            case 'insertionSort':
+              await insertionSort();
+              break;
+            case 'mergeSort':
+              await mergeSort();
+              break;
+            case 'quickSort':
+              await quickSort();
+              break;
+            case 'heapSort':
+              await heapSort();
+              break;
+            default:
+              console.error('Invalid sorting algorithm selected');
+          }
+      
+          drawArray([...Array(array.length).keys()], true); // Highlight all bars in green after sorting
+          isSorting = false;
+        }
+      }      
+      async function highlightCodeLine(content) {
+        const codeLines = document.getElementById('codeDisplay').getElementsByTagName('span');
+      
+        for (let i = 0; i < codeLines.length; i++) {
+          if (codeLines[i].textContent.includes(content)) {
+            codeLines[i].style.backgroundColor = 'yellow';
+            await sleep(speed);
+            codeLines[i].style.backgroundColor = 'transparent';
+          }
+        }
+      }         
+
+    function stopSorting() {
+      isSorting = false;
+    }
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // Event listener for the speed input
+    document.getElementById('speed').addEventListener('input', function() {
+      speed = 500 - this.value * 2; // Invert the value to get faster sorting for smaller input
+    });
+  </script>
+</body>
+</html>
