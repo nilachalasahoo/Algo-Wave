@@ -15,3 +15,7 @@ AlgoWave stands at the forefront of computer science education, pioneering a gro
 **Envisioning an Immersive Learning Journey:** Our platform envisions an immersive learning journey where algorithms come to life before your eyes. By providing an interactive learning experience, Algo Wave fosters deeper engagement and understanding among users.
 
 **Shaping the Future of Algorithmic Education:** By fostering a deeper understanding of code and algorithms, Algo Wave is shaping the future of algorithmic education. Our platform equips learners with the knowledge and skills they need to excel in the rapidly evolving field of computer science.
+
+# Snapshots
+**Home Page**
+(https://github.com/nilachalasahoo/Algo-Wave/blob/4f13b926744b9f8ea69ae54533efaf8bd59150d0/Image/Screenshot%20(99).png)
