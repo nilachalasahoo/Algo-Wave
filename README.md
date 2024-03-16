@@ -18,4 +18,4 @@ AlgoWave stands at the forefront of computer science education, pioneering a gro
 
 # Snapshots
 **Home Page**
-![1](https://github.com/nilachalasahoo/Algo-Wave/blob/4f13b926744b9f8ea69ae54533efaf8bd59150d0/Image/Screenshot%20(99).png)
+![1](https://github.com/nilachalasahoo/Algo-Wave/blob/4f13b926744b9f8ea69ae54533efaf8bd59150d0/Image/Screenshot%20(96).png)
